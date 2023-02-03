@@ -15,9 +15,9 @@ Own Your Files – Photos lets you upload photos and manage users whom are allow
 ## Documentation:
 * to be done...
 
-### Dependencies:
+## Dependencies:
 * Python 3.11
-## and kudos to following magnificent projects:
+### and kudos to following magnificent projects:
 * Own Your Files – Photos depends following external libraries:
     * FastAPI
         - https://fastapi.tiangolo.com/
@@ -48,7 +48,7 @@ Own Your Files – Photos lets you upload photos and manage users whom are allow
 * and following internal libraries:
     * base64
 
-### Executing program for testing
+## Executing program for testing
 
 * Run main.py, see Help for command line options
     ```
