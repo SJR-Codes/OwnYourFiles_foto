@@ -34,7 +34,7 @@ Own Your Files – Photos is developed for the need of keeping your files to you
     * uvloop
     * watchfiles
     * websockets
-- but you just ```(pip install -r requirements.txt)```
+- but you just ```pip install -r requirements.txt```
 * and following internal libraries:
     * base64
 
