@@ -4,7 +4,13 @@
 #### Demo: Coming soon in browsers near you...
 #### Description:
 
-Own Your Files – Photos is developed for the need of keeping your files to yourself...
+Own Your Files – Photos is developed for the need of keeping your photos to yourself...
+
+...even when putting 'em to cloud for sharing with your peeps. Keeping "Trust no one"* principle anxiously in mind.
+
+Own Your Files – Photos is a web API designed to be easily setted up into most modern cloud services.
+
+
 
 ### Dependencies:
 ## and kudos to following magnificent projects
@@ -66,3 +72,5 @@ samu.reinikainen@gmail.com
 ## License
 
 This project is licensed under the MIT License
+
+*) except Open Source
