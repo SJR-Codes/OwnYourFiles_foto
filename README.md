@@ -6,7 +6,7 @@
 
 Own Your Files – Photos is developed for the need of keeping your files to yourself...
 
-### Dependencies
+### Dependencies and kudos for
 
 * Own Your Files – Photos depends following external libraries:
     * FastAPI
@@ -15,6 +15,26 @@ Own Your Files – Photos is developed for the need of keeping your files to you
         - https://fastapi-users.github.io/fastapi-users/
     * Pillow
         - https://pillow.readthedocs.io/en/stable/
+    * SQLite
+        - https://sqlite.org/index.html
+    * anyio
+    * click
+    * h11
+    * httptools
+    * idna
+    * pydantic
+    * python-dotenv
+    * python-multipart
+    * PyYAML
+    * six
+    * sniffio
+    * starlette
+    * typing-extensions
+    * uvicorn
+    * uvloop
+    * watchfiles
+    * websockets
+    - but you just ```(pip install -r requirements.txt)```
 * and following internal libraries:
     * base64
 
