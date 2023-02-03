@@ -8,12 +8,16 @@ Own Your Files – Photos is developed for the need of keeping your photos to yo
 
 ...even when putting 'em to cloud for sharing with your peeps. Keeping "Trust no one"* principle anxiously in mind.
 
-Own Your Files – Photos is a web API designed to be easily setted up into most modern cloud services.
+Own Your Files – Photos is a web API designed to be secure yet "easily" setted up into most modern cloud services.
 
+Own Your Files – Photos lets you upload photos and manage users whom are allowed to browse and see those photos. On upload web & mobile optimized images are created and original is saved for downloads (if allowed).
 
+## Documentation:
+* to be done...
 
 ### Dependencies:
-## and kudos to following magnificent projects
+* Python 3.11
+## and kudos to following magnificent projects:
 * Own Your Files – Photos depends following external libraries:
     * FastAPI
         - https://fastapi.tiangolo.com/
@@ -72,5 +76,9 @@ samu.reinikainen@gmail.com
 ## License
 
 This project is licensed under the MIT License
+
+
+
+
 
 *) except Open Source
