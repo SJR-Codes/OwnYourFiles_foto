@@ -1,12 +1,12 @@
-# OwnYourFiles_foto
-## Own Your Files – Photos
+## OwnYourFiles_foto
+# Own Your Files – Photos
 ### Keep it to yourself
 #### Demo: Coming soon in browsers near you...
 #### Description:
 
 Own Your Files – Photos is developed for the need of keeping your files to yourself...
 
-### Dependencies
+### Dependencies:
 ## and kudos to following magnificent projects
 * Own Your Files – Photos depends following external libraries:
     * FastAPI
