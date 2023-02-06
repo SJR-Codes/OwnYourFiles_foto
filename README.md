@@ -63,6 +63,9 @@ Own Your Files – Photos lets you upload photos and manage users whom are allow
     python main.py -h
     ```
 
+## Extra very special mention and huge gratitude:
+    * frankie567 / François Voron for fastAPI Users examples and all
+
 ## Author
 
 Samu Reinikainen
