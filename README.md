@@ -64,7 +64,8 @@ Own Your Files – Photos lets you upload photos and manage users whom are allow
 
 * Run main.py, see Help for command line options
     ```
-    python main.py
+    python3.11 run_once.py
+    python3.11 main.py
     ```
 * Open in browser: http://127.0.0.1:8000
 
