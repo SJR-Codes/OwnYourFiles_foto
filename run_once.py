@@ -8,6 +8,10 @@
 
 import contextlib
 
+from app.db import User, create_db_and_tables
+async def create_db():
+    await create_db_and_tables()
+
 from app.db import get_async_session, get_user_db
 from app.schemas import UserCreate
 from app.users import get_user_manager
@@ -38,6 +42,10 @@ async def create_user(email: str, password: str, is_superuser: bool = False):
 import asyncio
 
 if __name__ == "__main__":
+    #create db and table
+    asyncio.run(create_db())
+    print("DB created")
+
     user_name = input("Enter email for admin user: ")
     passwd1 = input("Enter password for admin user: ")
     passwd2 = input("Enter password again for admin user: ")
@@ -45,4 +53,4 @@ if __name__ == "__main__":
     if len(user_name) > 6 and passwd1 == passwd2:
         asyncio.run(create_user(user_name, passwd1, True))
     else:
-        print('Please, try again. Relax!')
+        print('Oh, please, try again. Relax!')
