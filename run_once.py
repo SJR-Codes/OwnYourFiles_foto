@@ -39,6 +39,7 @@ async def create_user(email: str, password: str, is_superuser: bool = False):
         print(f"{email} is not valid email")
 
 
+#TODO: think. Does this really need to be asyncrhonous, like really.
 import asyncio
 
 if __name__ == "__main__":
