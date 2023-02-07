@@ -27,19 +27,31 @@ Own Your Files – Photos lets you upload photos and manage users whom are allow
         - https://pillow.readthedocs.io/en/stable/
     * SQLite
         - https://sqlite.org/index.html
+    * aiosqlite
     * anyio
+    * bcrypt
+    * cffi
     * click
+    * cryptography
+    * dnspython
+    * email-validator
+    * greenlet
     * h11
     * httptools
     * idna
+    * makefun
+    * passlib
+    * pycparser
     * pydantic
+    * PyJWT
     * python-dotenv
     * python-multipart
     * PyYAML
     * six
     * sniffio
+    * SQLAlchemy
     * starlette
-    * typing-extensions
+    * typing_extensions
     * uvicorn
     * uvloop
     * watchfiles
@@ -73,7 +85,7 @@ samu.reinikainen@gmail.com
 
 ## Version History
 
-* 0.1
+* 0.0.1
     * Initial Release
 
 ## License
