@@ -56,9 +56,9 @@ Own Your Files – Photos lets you upload photos and manage users whom are allow
     * uvloop
     * watchfiles
     * websockets
-- but you just ```pip install -r requirements.txt```
 * and following internal libraries:
     * base64
+#### but you just ```pip install -r requirements.txt```
 
 ## Executing program for testing
 
