@@ -8,7 +8,7 @@
 
 import contextlib
 
-from app.db import User, create_db_and_tables
+from app.db import create_db_and_tables
 async def create_db():
     await create_db_and_tables()
 
@@ -39,7 +39,7 @@ async def create_user(email: str, password: str, is_superuser: bool = False):
     #    print(f"{email} is not valid email")
 
 
-#TODO: think. Does this really need to be asyncrhonous, like really.
+#TODO: think. Does this really need to be asynchronous, like really.
 import asyncio
 
 if __name__ == "__main__":
@@ -54,4 +54,4 @@ if __name__ == "__main__":
     if len(user_name) > 6 and passwd1 == passwd2:
         asyncio.run(create_user(user_name, passwd1, True))
     else:
-        print('Oh, please, try again. Relax!')
+        print('Oh, please. Try again. Relax!')
