@@ -71,7 +71,7 @@ Own Your Files – Photos lets you upload photos and manage users whom are allow
     ```
     python3.11 main.py
     ```
-* Open in browser: http://127.0.0.1:8000
+* Open in browser: http://0.0.0.0:8000
 
 ## Help
 
