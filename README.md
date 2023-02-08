@@ -81,7 +81,7 @@ Own Your Files – Photos lets you upload photos and manage users whom are allow
     ```
 
 ## Extra very special mention and huge gratitude:
-   https://github.com/frankie567 / François Voron for fastAPI Users examples and all
+    [frankie567](https://github.com/frankie567) / François Voron for fastAPI Users examples and all
 
 ## Author
 
