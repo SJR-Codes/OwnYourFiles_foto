@@ -35,8 +35,8 @@ async def create_user(email: str, password: str, is_superuser: bool = False):
                     print(f"User created {user}")
     except UserAlreadyExists:
         print(f"User {email} already exists")
-    except ValidationError:
-        print(f"{email} is not valid email")
+    #except ValidationError:
+    #    print(f"{email} is not valid email")
 
 
 #TODO: think. Does this really need to be asyncrhonous, like really.
