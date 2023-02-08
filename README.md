@@ -63,19 +63,25 @@ Own Your Files – Photos lets you upload photos and manage users whom are allow
 ## Executing program for testing
 * Modify ```.env-example``` file and save it as ```.env``` (remember to add .env to .gitignore)
 * Run ```run_once.py``` to initialize things, see Help for command line options
-    ```python3.11 run_once.py```
+    ```
+    python3.11 run_once.py
+    ```
 
 * Run ```main.py```, see Help for command line options
-    ```python3.11 main.py```
+    ```
+    python3.11 main.py
+    ```
 * Open in browser: http://127.0.0.1:8000
 
 ## Help
 
 * Run with -h to see command line arguments.
-    ```python3.11 main.py -h```
+    ```
+    python3.11 main.py -h
+    ```
 
 ## Extra very special mention and huge gratitude:
-    [frankie567](https://github.com/frankie567) / François Voron for fastAPI Users examples and all
+[frankie567](https://github.com/frankie567) / François Voron for fastAPI Users examples and all
 
 ## Author
 
