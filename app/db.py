@@ -18,6 +18,44 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
 engine = create_async_engine(DATABASE_URL)
 async_session_maker = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
+# OYF code
+from sqlalchemy import Column, ForeignKey, String, Integer, DateTime, Identity, CHAR
+from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
+import uuid as uuid_pkg
+
+class OYF_Photo(Base):
+    __tablename__ = "photo"
+    #TODO: figure out sqlAchemys UUID type, since only sqlite supported for now this is fine
+    id = Column(
+        CHAR(36),
+        default=uuid_pkg.uuid4,
+        primary_key=True,
+        index=True,
+        nullable=False)
+    filename = Column(String(100))
+    filetype = Column(String(5))
+    filesize = Column(Integer)
+    image_width = Column(Integer)
+    image_height = Column(Integer)
+    image_time = Column(DateTime) 
+    created = Column(DateTime, default=func.now())
+    category_id = Column(Integer, ForeignKey("category.id"))
+    category = relationship("OYF_Category")
+
+    def __repr__(self):
+        return f"Photo(id={self.id!r}, filename={self.filename!r})"
+
+class OYF_Category(Base):
+    __tablename__ = "category"
+
+    id = Column(Integer, Identity(start=10, cycle=True), primary_key=True)
+    title = Column(String, nullable=False)
+
+    def __repr__(self):
+        return f"Category(id={self.id!r}, title={self.title!r})"
+
+# END OYF code
 
 async def create_db_and_tables():
     async with engine.begin() as conn:

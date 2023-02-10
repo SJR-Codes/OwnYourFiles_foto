@@ -12,7 +12,7 @@ from app.db import create_db_and_tables
 async def create_db():
     await create_db_and_tables()
 
-from app.db import get_async_session, get_user_db
+from app.db import get_async_session, get_user_db, engine
 from app.schemas import UserCreate
 from app.users import get_user_manager
 from fastapi_users.exceptions import UserAlreadyExists
@@ -43,15 +43,24 @@ async def create_user(email: str, password: str, is_superuser: bool = False):
 import asyncio
 
 if __name__ == "__main__":
-    #create db and table
-    asyncio.run(create_db())
-    print("DB created")
-
+    proceed = False
     user_name = input("Enter email for admin user: ")
     passwd1 = input("Enter password for admin user: ")
     passwd2 = input("Enter password again for admin user: ")
 
-    if len(user_name) > 6 and passwd1 == passwd2:
-        asyncio.run(create_user(user_name, passwd1, True))
-    else:
+    #for quick testing
+    """     user_name = "asd@asd.fo"
+        passwd1 = "asd"
+        passwd2 = "asd"
+    """
+    if len(user_name) < 6 and passwd1 != passwd2:
         print('Oh, please. Try again. Relax!')
+        exit()
+
+    #create db and table
+    asyncio.run(create_db())
+    print("DB & tables created")
+    asyncio.run(create_user(user_name, passwd1, True))
+    print("Admin user created")
+
+
