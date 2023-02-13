@@ -49,7 +49,7 @@ class OYF_Photo(Base):
 class OYF_Category(Base):
     __tablename__ = "category"
 
-    id = Column(Integer, Identity(start=10, cycle=True), primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String, nullable=False)
 
     def __repr__(self):
