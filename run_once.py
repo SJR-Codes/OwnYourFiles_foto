@@ -20,7 +20,7 @@ if __name__ == "__main__":
         print('Oh, please. Try again. Relax!')
         exit()
 
-    #create secret to encode reset password token.
+    #create secret to encode reset password & verification token.
     import secrets
     secret = secrets.token_hex(64)
 
