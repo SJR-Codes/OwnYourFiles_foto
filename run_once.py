@@ -21,8 +21,10 @@ if __name__ == "__main__":
         exit()
 
     #create secret to encode reset password & verification token.
+    import string
     import secrets
-    secret = secrets.token_hex(64)
+    abc = string.ascii_letters + string.digits + " "
+    secret = ''.join(secrets.choice(abc) for i in range(64))
 
     #create .env file
     with open(".env", "w") as f:
