@@ -59,6 +59,11 @@ Own Your Files – Photos lets you upload photos and manage users whom are allow
 * and following internal libraries:
     * base64
     * uuid
+    * string
+    * secret
+    * contextlib
+    * asyncio
+
 #### but you just ```pip install -r requirements.txt```
 
 ## Executing program for testing
