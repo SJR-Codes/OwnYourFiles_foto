@@ -68,6 +68,7 @@ if __name__ == "__main__":
         #except ValidationError:
         #    print(f"{email} is not valid email")
 
+    #TODO: OYF table create into separate function & file
     #create db and table
     asyncio.run(create_db())
     print("DB & tables created")

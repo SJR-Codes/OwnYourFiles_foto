@@ -18,6 +18,7 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
 engine = create_async_engine(DATABASE_URL)
 async_session_maker = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
+#TODO: move this to own "module"
 # OYF code
 from sqlalchemy import Column, ForeignKey, String, Integer, DateTime, CHAR
 from sqlalchemy.orm import relationship
@@ -42,8 +43,10 @@ class OYF_Photo(Base):
     created = Column(DateTime, default=func.now())
     category_id = Column(Integer, ForeignKey("category.id"))
     category = relationship("OYF_Category")
+    #TODO: need for backpopulate categories here?
 
     def __repr__(self):
+        #TODO: think representer for photo
         return f"Photo(id={self.id!r}, filename={self.filename!r})"
 
 class OYF_Category(Base):
