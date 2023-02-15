@@ -19,7 +19,7 @@ engine = create_async_engine(DATABASE_URL)
 async_session_maker = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
 # OYF code
-from sqlalchemy import Column, ForeignKey, String, Integer, DateTime, Identity, CHAR
+from sqlalchemy import Column, ForeignKey, String, Integer, DateTime, CHAR
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 import uuid as uuid_pkg
