@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     app_version: str = "0.0.0"
     admin_email: str = "admin@example.com"
     database_url: str
-    secret: str = "Just something to be overidden"
+    secret: str = "Just something to be ridden over"
 
     #override above variables from .env-file. See .env_example
     class Config:
