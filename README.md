@@ -67,8 +67,8 @@ Own Your Files – Photos lets you upload photos and manage users whom are allow
 #### but you just ```pip install -r requirements.txt```
 
 ## Executing program for testing
-* Modify ```.env-example``` file and save it as ```.env``` (remember to add .env to .gitignore)
-* Run ```run_once.py``` to initialize things, see Help for command line options
+* Make sure you've installed required dependencies: ```pip install -r requirements.txt```
+* Run ```run_once.py``` and input username & password for superuser to initialize things
     ```
     python3.11 run_once.py
     ```
