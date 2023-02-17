@@ -1,9 +1,3 @@
-# SJR-Codes additions
-
-from app.config import settings
-
-# END SJR-Codes additions
-
 from fastapi import Depends, FastAPI
 
 #db create is done in run_once.py
