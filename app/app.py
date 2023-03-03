@@ -44,3 +44,30 @@ async def authenticated_route(user: User = Depends(current_active_user)):
 #    await create_db_and_tables()
 
 #TODO: routes
+from fastapi import HTTPException
+from app import oyf_crud, oyf_models, schemas, db
+from sqlalchemy.ext.asyncio import AsyncSession
+
+#TODO: figure out those dogfangled async, await, yield etc.
+@app.post("/categories/", response_model=schemas.Category)
+async def create_category(category: schemas.CategoryCreate, db: AsyncSession = Depends(db.get_async_session)):
+    category = await oyf_crud.create_category(db=db, category=category)
+    #if db_user:
+    #    raise HTTPException(status_code=400, detail="Email already registered")
+    return category
+
+
+@app.get("/categories/", response_model=list[schemas.Category])
+async def read_categories(skip: int = 0, limit: int = 100, db: AsyncSession = Depends(db.get_async_session)):
+    categories = await oyf_crud.get_categories(db, skip=skip, limit=limit)
+    #print(categories)
+    return categories
+
+
+@app.get("/categories/{id}", response_model=schemas.Category)
+async def read_category(id: int, db: AsyncSession = Depends(db.get_async_session)):
+    category = await oyf_crud.get_category(db, category_id=id)
+    #print(category)
+    if category is None:
+        raise HTTPException(status_code=404, detail="Category not found")
+    return category
