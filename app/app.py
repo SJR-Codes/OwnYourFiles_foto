@@ -4,7 +4,7 @@ from fastapi import Depends, FastAPI
 #from app.db import User, create_db_and_tables
 from app.db import User
 from app.schemas import UserCreate, UserRead, UserUpdate
-from app.users import auth_backend, current_active_user, fastapi_users
+from app.users import auth_backend, current_active_user, fastapi_users, current_superuser
 
 app = FastAPI()
 
@@ -34,7 +34,7 @@ app.include_router(
 
 
 @app.get("/authenticated-route")
-async def authenticated_route(user: User = Depends(current_active_user)):
+async def authenticated_route(user: User = Depends(current_superuser)):
     return {"message": f"Hello {user.email}!"}
 
 #done in run_once.py
@@ -49,8 +49,12 @@ from app import oyf_crud, oyf_models, schemas, db
 from sqlalchemy.ext.asyncio import AsyncSession
 
 #TODO: figure out those dogfangled async, await, yield etc.
-@app.post("/categories/", response_model=schemas.Category)
-async def create_category(category: schemas.CategoryCreate, db: AsyncSession = Depends(db.get_async_session)):
+@app.post("/categories/", response_model=schemas.Category,)
+async def create_category(
+        category: schemas.CategoryCreate, 
+        db: AsyncSession = Depends(db.get_async_session), 
+        user: User = Depends(current_superuser)
+    ):
     category = await oyf_crud.create_category(db=db, category=category)
     #if db_user:
     #    raise HTTPException(status_code=400, detail="Email already registered")
@@ -58,14 +62,22 @@ async def create_category(category: schemas.CategoryCreate, db: AsyncSession = D
 
 
 @app.get("/categories/", response_model=list[schemas.Category])
-async def read_categories(skip: int = 0, limit: int = 100, db: AsyncSession = Depends(db.get_async_session)):
+async def read_categories(
+        skip: int = 0, limit: int = 100, 
+        db: AsyncSession = Depends(db.get_async_session), 
+        user: User = Depends(current_active_user)
+    ):
     categories = await oyf_crud.get_categories(db, skip=skip, limit=limit)
     #print(categories)
     return categories
 
 
 @app.get("/categories/{id}", response_model=schemas.Category)
-async def read_category(id: int, db: AsyncSession = Depends(db.get_async_session)):
+async def read_category(
+        id: int, 
+        db: AsyncSession = Depends(db.get_async_session), 
+        user: User = Depends(current_superuser)
+    ):
     category = await oyf_crud.get_category(db, category_id=id)
     #print(category)
     if category is None:
