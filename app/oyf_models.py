@@ -38,15 +38,8 @@ class OYF_Photo(Base):
     category = relationship("OYF_Category") #, back_populates="")
     #TODO: need for backpopulate categories here?
 
-    def __repr__(self):
-        #TODO: think representer for photo
-        return f"Photo(id={self.id!r}, filename={self.filename!r})"
-
 class OYF_Category(Base):
     __tablename__ = "category"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String, nullable=False)
-
-    def __repr__(self):
-        return f"Category(id={self.id!r}, title={self.title!r})"
