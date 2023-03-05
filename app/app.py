@@ -60,7 +60,7 @@ async def create_category(
     return category
 
 
-@app.get("/categories/", response_model=list[schemas.Categories], dependencies=[Depends(current_active_user)], tags=[settings.app_name])
+@app.get("/categories/", response_model=list[schemas.Category], dependencies=[Depends(current_active_user)], tags=[settings.app_name])
 async def read_categories(
         skip: int = 0, limit: int = 100, 
         db: AsyncSession = Depends(db.get_async_session)

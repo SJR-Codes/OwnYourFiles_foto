@@ -30,12 +30,6 @@ class Category(CategoryBase):
     class Config:
         orm_mode = True
 
-class Categories(BaseModel):
-    category: list[Category] = []
-
-    class Config:
-        orm_mode = True
-
 #classes for images
 class ImageBase(BaseModel):
     filename: str
