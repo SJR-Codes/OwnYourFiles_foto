@@ -16,14 +16,17 @@ Base: DeclarativeMeta = declarative_base()
 from sqlalchemy import Column, ForeignKey, String, Integer, DateTime, CHAR
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
+from uuid import UUID
 import uuid as uuid_pkg
 
 class OYF_Photo(Base):
     __tablename__ = "photo"
     #TODO: figure out sqlAchemys UUID type, since only sqlite supported for now this is fine
-    id = Column(
-        CHAR(36),
-        default=uuid_pkg.uuid4,
+    id = Column( #UUID(hex),
+        String(36),
+        #UUID,
+        #TODO: re-invent some more beautiful hack in here
+        default=str(uuid_pkg.uuid4),
         primary_key=True,
         index=True,
         nullable=False)
