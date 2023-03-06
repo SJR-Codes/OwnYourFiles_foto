@@ -35,7 +35,7 @@ class OYF_Photo(Base):
     filesize = Column(Integer)
     image_width = Column(Integer)
     image_height = Column(Integer)
-    image_time = Column(DateTime) 
+    image_time = Column(DateTime)
     created = Column(DateTime, default=func.now())
     category_id = Column(Integer, ForeignKey("category.id"))
     category = relationship("OYF_Category") #, back_populates="")
