@@ -10,8 +10,21 @@ async def get_photo(db: AsyncSession, photo_id: str):
     return result.scalars().first()
 
 
-async def create_photo(db: AsyncSession, photo: schemas.PhotoCreate):
-    db_photo = oyf_models.OYF_Photo(filename=photo.filename)    
+#async def create_photo(db: AsyncSession, photo: schemas.PhotoCreate):
+async def create_photo(db: AsyncSession, photo: schemas.Photo):
+    #db_photo = photo
+    #TODO: find a better way to do this... shouldn't be so hard...
+    db_photo = oyf_models.OYF_Photo(
+        id = photo.id,
+        filename = photo.filename,
+        filetype = photo.filetype,
+        filesize = photo.filesize,
+        image_width = photo.image_width,
+        image_height = photo.image_height,
+        image_time = photo.image_time,
+        created = photo.created,
+    )
+    #db_photo = oyf_models.OYF_Photo(photo.__dict__)
     db.add(db_photo)
     await db.commit()
     await db.refresh(db_photo)

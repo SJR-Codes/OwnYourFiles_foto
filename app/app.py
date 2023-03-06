@@ -38,11 +38,12 @@ async def authenticated_route(user: User = Depends(current_active_user)):
     return {"message": f"Hello {user.email}!"}
 
 #OYF routes
-from fastapi import HTTPException
+from fastapi import HTTPException, UploadFile
 from app import oyf_crud, oyf_models, schemas, db
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.config import settings
-from uuid import UUID
+from uuid import UUID, uuid4
+from datetime import datetime
 
 @app.get("/photos/{id}", response_model=schemas.Photo, dependencies=[Depends(current_active_user)], tags=[settings.app_name])
 async def read_photo(
@@ -61,6 +62,29 @@ async def create_photo(
         photo: schemas.PhotoCreate, 
         db: AsyncSession = Depends(db.get_async_session)
     ):
+    photo = await oyf_crud.create_photo(db=db, photo=photo)
+    
+    return photo
+
+@app.post("/upload/", response_model=schemas.Photo, dependencies=[Depends(current_superuser)], tags=[settings.app_name])
+async def create_photo(
+        upfile: UploadFile,
+        #photo: schemas.PhotoCreate, 
+        db: AsyncSession = Depends(db.get_async_session)
+    ):
+
+    tmp = await upfile.read()
+    
+    photo = schemas.Photo
+    photo.id = str(uuid4())
+    photo.filename = upfile.filename
+    photo.filetype = upfile.content_type
+    photo.filesize = len(tmp)
+    photo.image_width = 1024
+    photo.image_height = 768
+    photo.image_time = datetime.now()
+    photo.created = datetime.now()
+
     photo = await oyf_crud.create_photo(db=db, photo=photo)
     
     return photo
