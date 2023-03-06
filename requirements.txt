@@ -1,6 +1,5 @@
 wheel
 fastapi
-fastapi-utils
 fastapi-users[sqlalchemy]
 uvicorn[standard]
 aiosqlite
