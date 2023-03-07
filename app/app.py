@@ -44,6 +44,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.config import settings
 from uuid import UUID, uuid4
 from datetime import datetime
+from PIL import Image
 
 @app.get("/photos/{id}", response_model=schemas.Photo, dependencies=[Depends(current_active_user)], tags=[settings.app_name])
 async def read_photo(
@@ -73,20 +74,37 @@ async def create_photo(
         db: AsyncSession = Depends(db.get_async_session)
     ):
 
-    tmp = await upfile.read()
-    
+    #TODO: groove this func
+    #TODO: funcing async awaits
+
+    #tmp = await upfile.read()
+    original_image = Image.open(upfile.file)
+
+    exifdata = original_image.getexif()
+
     photo = schemas.Photo
     photo.id = str(uuid4())
     photo.filename = upfile.filename
-    photo.filetype = upfile.content_type
-    photo.filesize = len(tmp)
-    photo.image_width = 1024
-    photo.image_height = 768
-    photo.image_time = datetime.now()
-    photo.created = datetime.now()
+    photo.filetype = upfile.content_type #original type #TODO: for what??
+    photo.filesize = 666 #len(upfile) #original filesize #TODO: for what??
+    photo.image_width = original_image.width
+    photo.image_height = original_image.height
+    photo.image_time = exifdata.get('DateTimeOriginal', datetime.now()) #original timestamp if found
+    photo.created = datetime.now() #photo uploaded timestamp
 
     photo = await oyf_crud.create_photo(db=db, photo=photo)
     
+    #TODO: save original as is, then create thumbnail, mobile optimized midnail + fullsize (web optimized) images
+
+    #save file into img_path using UUID as filename
+    filename = f"{settings.img_path}{photo.id}.jpg"
+    #with open(filename, "wb") as f:
+    #    f.write(tmp)
+
+    original_image.save(filename, 'jpeg')
+
+    original_image.close()
+
     return photo
 
 @app.post("/categories/", response_model=schemas.Category, dependencies=[Depends(current_superuser)], tags=[settings.app_name])
