@@ -24,7 +24,6 @@ async def create_photo(db: AsyncSession, photo: schemas.Photo):
         image_time = photo.image_time,
         created = photo.created,
     )
-    #db_photo = oyf_models.OYF_Photo(photo.__dict__)
     db.add(db_photo)
     await db.commit()
     await db.refresh(db_photo)
