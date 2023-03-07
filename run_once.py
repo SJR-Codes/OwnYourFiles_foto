@@ -33,6 +33,7 @@ if __name__ == "__main__":
         f.write(f'ADMIN_EMAIL="{user_name}"\n')
         f.write('DATABASE_URL="sqlite+aiosqlite:///./test.db"\n')
         f.write(f'SECRET="{secret}"\n')
+        f.write(f'IMG_PATH="///./images/"\n')
 
     import contextlib
     #TODO: think. Does this really need to be asynchronous, like really.

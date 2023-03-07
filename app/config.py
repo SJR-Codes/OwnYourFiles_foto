@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     admin_email: str = "admin@example.com"
     database_url: str
     secret: str = "Just something to be ridden over"
+    img_path: str = "path to images"
 
     #override above variables from .env-file. See .env_example
     class Config:
