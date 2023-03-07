@@ -45,6 +45,7 @@ from app.config import settings
 from uuid import UUID, uuid4
 from datetime import datetime
 from PIL import Image
+import pathlib
 
 @app.get("/photos/{id}", response_model=schemas.Photo, dependencies=[Depends(current_active_user)], tags=[settings.app_name])
 async def read_photo(
@@ -77,14 +78,14 @@ async def create_photo(
     #TODO: groove this func
     #TODO: funcing async awaits
 
-    #tmp = await upfile.read()
+    
     original_image = Image.open(upfile.file)
 
     exifdata = original_image.getexif()
 
     photo = schemas.Photo
     photo.id = str(uuid4())
-    photo.filename = upfile.filename
+    photo.filename = upfile.filename #original filename
     photo.filetype = upfile.content_type #original type #TODO: for what??
     photo.filesize = 666 #len(upfile) #original filesize #TODO: for what??
     photo.image_width = original_image.width
@@ -94,14 +95,38 @@ async def create_photo(
 
     photo = await oyf_crud.create_photo(db=db, photo=photo)
     
-    #TODO: save original as is, then create thumbnail, mobile optimized midnail + fullsize (web optimized) images
+    #TODO: then create thumbnail, mobile optimized midnail + fullsize (web optimized) images
 
     #save file into img_path using UUID as filename
-    filename = f"{settings.img_path}{photo.id}.jpg"
-    #with open(filename, "wb") as f:
-    #    f.write(tmp)
+    filepath = settings.img_path
+    save_filename = f"{photo.id}.jpg"
+    
+    #save original file as is but with uuid filename
+    tmp = await upfile.read()      
+    #get the file extension
+    file_extension = pathlib.Path(photo.filename).suffix
+    orig_filename = f"{filepath}orig_{photo.id}{file_extension}"
+    with open(orig_filename, "wb") as f:
+        f.write(tmp)
 
-    original_image.save(filename, 'jpeg')
+    #save full size, optimized, in jpg format
+    original_image.save(f"{filepath}{save_filename}", 'jpeg', optimize=True)
+
+    #save thumbnail
+    thmb_filename = f"thmb_{save_filename}"
+    thmb = original_image.copy()
+    thmb_size = (161,161)
+    thmb.thumbnail(thmb_size)
+    thmb.save(f"{filepath}{thmb_filename}", 'jpeg', optimize=True)
+    thmb.close()
+
+    #save midnail
+    mid_filename = f"mid_{save_filename}"
+    mid = original_image.copy()
+    mid_size = (1080,1080)
+    mid.thumbnail(mid_size)
+    mid.save(f"{filepath}{mid_filename}", 'jpeg', optimize=True)
+    mid.close()
 
     original_image.close()
 
