@@ -16,7 +16,6 @@ Base: DeclarativeMeta = declarative_base()
 from sqlalchemy import Column, ForeignKey, String, Integer, DateTime, CHAR
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from uuid import UUID
 import uuid as uuid_pkg
 
 class OYF_Photo(Base):
