@@ -11,6 +11,8 @@ if __name__ == "__main__":
     passwd1 = input("Enter password for admin user: ")
     passwd2 = input("Enter password again for admin user: ")
 
+    #TODO: perhaps ask path to images here and create folder
+
     #for quick testing
     """     user_name = "asd@asd.fo"
         passwd1 = "asd"
