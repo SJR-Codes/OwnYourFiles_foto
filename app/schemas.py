@@ -17,7 +17,6 @@ class UserUpdate(schemas.BaseUserUpdate):
 #OYF code from here on... dragons, perhaps...
 from datetime import datetime
 from pydantic import BaseModel
-from uuid import UUID
 
 #classes for categories
 class CategoryBase(BaseModel):
@@ -40,7 +39,6 @@ class PhotoCreate(PhotoBase):
     pass
 
 class Photo(PhotoBase):
-    #id: UUID
     id: str
     filetype: str
     filesize: int
@@ -52,6 +50,5 @@ class Photo(PhotoBase):
 
     class Config:
         orm_mode = True
-
 
 #END OYF code
