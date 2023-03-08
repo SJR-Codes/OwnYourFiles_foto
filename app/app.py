@@ -80,7 +80,7 @@ async def create_photo(
     photo.filename = upfile.filename #original filename
 
     #TODO: groove this func
-    #TODO: funcing async awaits
+    #TODO: funcing async awaits, figure out blocking functions
 
     #save file into img_path using UUID as filename
     filepath = settings.img_path
@@ -107,11 +107,10 @@ async def create_photo(
 
     photo = await oyf_crud.create_photo(db=db, photo=photo)
     
-    #TODO: then create thumbnail, mobile optimized midnail + fullsize (web optimized) images
-   
     #save full size, optimized, in jpg format
     original_image.save(f"{filepath}{save_filename}", 'jpeg', optimize=True)
 
+    #TODO: list(tuple) -> loop function to create images
     #save midnail
     mid_size = (1080,1080)
     original_image.thumbnail(mid_size)
