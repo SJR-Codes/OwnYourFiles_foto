@@ -112,21 +112,15 @@ async def create_photo(
     #save full size, optimized, in jpg format
     original_image.save(f"{filepath}{save_filename}", 'jpeg', optimize=True)
 
-    #save thumbnail
-    thmb_filename = f"thmb_{save_filename}"
-    thmb = original_image.copy()
-    thmb_size = (161,161)
-    thmb.thumbnail(thmb_size)
-    thmb.save(f"{filepath}{thmb_filename}", 'jpeg', optimize=True)
-    thmb.close()
-
     #save midnail
-    mid_filename = f"mid_{save_filename}"
-    mid = original_image.copy()
     mid_size = (1080,1080)
-    mid.thumbnail(mid_size)
-    mid.save(f"{filepath}{mid_filename}", 'jpeg', optimize=True)
-    mid.close()
+    original_image.thumbnail(mid_size)
+    original_image.save(f"{filepath}mid_{save_filename}", 'jpeg', optimize=True)
+
+    #save thumbnail
+    thmb_size = (161,161)
+    original_image.thumbnail(thmb_size)
+    original_image.save(f"{filepath}thmb_{save_filename}", 'jpeg', optimize=True)
 
     original_image.close()
 
