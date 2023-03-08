@@ -75,27 +75,12 @@ async def create_photo(
         db: AsyncSession = Depends(db.get_async_session)
     ):
 
-    #TODO: groove this func
-    #TODO: funcing async awaits
-
-    
-    original_image = Image.open(upfile.file)
-
-    exifdata = original_image.getexif()
-
     photo = schemas.Photo
     photo.id = str(uuid4())
     photo.filename = upfile.filename #original filename
-    photo.filetype = upfile.content_type #original type #TODO: for what??
-    photo.filesize = 666 #len(upfile) #original filesize #TODO: for what??
-    photo.image_width = original_image.width
-    photo.image_height = original_image.height
-    photo.image_time = exifdata.get('DateTimeOriginal', datetime.now()) #original timestamp if found
-    photo.created = datetime.now() #photo uploaded timestamp
 
-    photo = await oyf_crud.create_photo(db=db, photo=photo)
-    
-    #TODO: then create thumbnail, mobile optimized midnail + fullsize (web optimized) images
+    #TODO: groove this func
+    #TODO: funcing async awaits
 
     #save file into img_path using UUID as filename
     filepath = settings.img_path
@@ -108,7 +93,22 @@ async def create_photo(
     orig_filename = f"{filepath}orig_{photo.id}{file_extension}"
     with open(orig_filename, "wb") as f:
         f.write(tmp)
+    
+    original_image = Image.open(upfile.file)
 
+    exifdata = original_image.getexif()
+    
+    photo.filetype = upfile.content_type #original type #TODO: for what??
+    photo.filesize = 666 #len(upfile) #original filesize #TODO: for what??
+    photo.image_width = original_image.width
+    photo.image_height = original_image.height
+    photo.image_time = exifdata.get('DateTimeOriginal', datetime.now()) #original timestamp if found
+    photo.created = datetime.now() #photo uploaded timestamp
+
+    photo = await oyf_crud.create_photo(db=db, photo=photo)
+    
+    #TODO: then create thumbnail, mobile optimized midnail + fullsize (web optimized) images
+   
     #save full size, optimized, in jpg format
     original_image.save(f"{filepath}{save_filename}", 'jpeg', optimize=True)
 
