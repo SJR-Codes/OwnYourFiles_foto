@@ -110,7 +110,7 @@ async def create_photo(
     #save full size, optimized, in jpg format
     original_image.save(f"{filepath}{save_filename}", 'jpeg', optimize=True)
 
-    #TODO: list(tuple) -> loop function to create images
+    #TODO: list(dict(size,prefix)) -> loop function to create images
     #save midnail
     mid_size = (1080,1080)
     original_image.thumbnail(mid_size)
