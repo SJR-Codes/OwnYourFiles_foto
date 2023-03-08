@@ -18,6 +18,7 @@ if __name__ == "__main__":
         passwd1 = "asd"
         passwd2 = "asd"
     """
+    #TODO: brtter check for email and passwd complexity
     if len(user_name) < 6 and passwd1 != passwd2:
         print('Oh, please. Try again. Relax!')
         exit()
@@ -28,6 +29,10 @@ if __name__ == "__main__":
     abc = string.ascii_letters + string.digits + " "
     secret = ''.join(secrets.choice(abc) for i in range(64))
 
+    #create folder(s) for images if one doesn't exist, ignore error if one exists
+    from pathlib import Path
+    Path("./images/").mkdir(parents=True, exist_ok=True)
+
     #create .env file
     with open(".env", "w") as f:
         f.write('APP_NAME="Own Your Files - Photos"\n')
@@ -35,7 +40,7 @@ if __name__ == "__main__":
         f.write(f'ADMIN_EMAIL="{user_name}"\n')
         f.write('DATABASE_URL="sqlite+aiosqlite:///./test.db"\n')
         f.write(f'SECRET="{secret}"\n')
-        f.write(f'IMG_PATH="///./images/"\n')
+        f.write(f'IMG_PATH="./images/"\n')
 
     import contextlib
     #TODO: think. Does this really need to be asynchronous, like really.
