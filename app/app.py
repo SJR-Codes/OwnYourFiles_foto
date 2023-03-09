@@ -81,6 +81,7 @@ async def create_photo(
 
     #TODO: groove this func
     #TODO: funcing async awaits, figure out blocking functions
+    #TODO: might be "easiest" to spawn separate process for mangling image in background
 
     #save file into img_path using UUID as filename
     filepath = settings.img_path
