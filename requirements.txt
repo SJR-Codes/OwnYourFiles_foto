@@ -3,4 +3,5 @@ fastapi
 fastapi-users[sqlalchemy]
 uvicorn[standard]
 aiosqlite
+aiofiles
 Pillow
