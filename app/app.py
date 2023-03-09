@@ -46,6 +46,7 @@ from uuid import UUID, uuid4
 from datetime import datetime
 from PIL import Image
 import pathlib
+import aiofiles
 
 @app.get("/photos/{id}", response_model=schemas.Photo, dependencies=[Depends(current_active_user)], tags=[settings.app_name])
 async def read_photo(
@@ -88,12 +89,22 @@ async def create_photo(
     save_filename = f"{photo.id}.jpg"
     
     #save original file as is but with uuid filename
-    tmp = await upfile.read()      
+    #tmp = await upfile.read()
     #get the file extension
     file_extension = pathlib.Path(photo.filename).suffix
     orig_filename = f"{filepath}orig_{photo.id}{file_extension}"
-    with open(orig_filename, "wb") as f:
-        f.write(tmp)
+
+    #remove blocking code
+    #with open(orig_filename, "wb") as f:
+    #    f.write(tmp)
+
+    #handle file save asynchronously
+    async with aiofiles.open(orig_filename, 'wb') as out_file:
+        #content = await upfile.read()  # async read
+        #await out_file.write(content)  # async write
+        while content := await upfile.read(1024*1024):  # async read chunk #TODO: does chunk size matter? yes, but how much?
+            await out_file.write(content)  # async write chunk
+    #TODO: perhaps check shutil way...
     
     original_image = Image.open(upfile.file)
 
