@@ -47,6 +47,7 @@ from datetime import datetime
 from PIL import Image
 import pathlib
 import aiofiles
+import os
 
 @app.get("/photos/{id}", response_model=schemas.Photo, dependencies=[Depends(current_active_user)], tags=[settings.app_name])
 async def read_photo(
@@ -117,7 +118,7 @@ async def create_photo(
     exifdata = original_image.getexif()
     
     photo.filetype = upfile.content_type #original type #TODO: for what??
-    photo.filesize = 666 #len(upfile) #original filesize #TODO: for what??
+    photo.filesize = os.stat(out_file.name).st_size #out_file.tell() #original filesize #TODO: for what?? really worth importing os just for this
     photo.image_width = original_image.width
     photo.image_height = original_image.height
     photo.image_time = exifdata.get('DateTimeOriginal', datetime.now()) #original timestamp if found
