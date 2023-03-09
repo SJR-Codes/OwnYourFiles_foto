@@ -106,6 +106,12 @@ async def create_photo(
             await out_file.write(content)  # async write chunk
     #TODO: perhaps check shutil way...
     
+    #TODO: these should be done in subprocess... if we are okay with not returning image right away...
+    #user uploads image, gets "image uploaded", does she upload more or should processed image be returned straight away?
+    #we have saved original into filesystem above so could just spawn mangle_image(orig_filename) into subprocess
+    #pros: not blocking process with possibly huge file mangling
+    #cons: user doesn't get processed image back right after upload -> redirect and hope subprocess has done it's magic
+    
     original_image = Image.open(upfile.file)
 
     exifdata = original_image.getexif()
