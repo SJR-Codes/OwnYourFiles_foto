@@ -39,6 +39,7 @@ async def authenticated_route(user: User = Depends(current_active_user)):
 
 #OYF routes
 from fastapi import HTTPException, UploadFile
+from fastapi.responses import StreamingResponse, Response
 from app import oyf_crud, oyf_models, schemas, db
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.config import settings
@@ -48,6 +49,7 @@ from PIL import Image
 import pathlib
 import aiofiles
 import os
+from io import BytesIO
 
 @app.get("/photos/{id}", response_model=schemas.Photo, dependencies=[Depends(current_active_user)], tags=[settings.app_name])
 async def read_photo(
@@ -69,13 +71,15 @@ async def create_photo(
     photo = await oyf_crud.create_photo(db=db, photo=photo)
     
     return photo
-
-@app.post("/upload/", response_model=schemas.Photo, dependencies=[Depends(current_superuser)], tags=[settings.app_name])
+responses = {200: {"content": {"image/png": {}}}}
+#@app.post("/upload/", response_model=schemas.Photo, dependencies=[Depends(current_superuser)], tags=[settings.app_name])
+@app.post("/upload/", responses=responses, response_class=Response, dependencies=[Depends(current_superuser)], tags=[settings.app_name])
 async def create_photo(
         upfile: UploadFile,
         #photo: schemas.PhotoCreate, 
-        db: AsyncSession = Depends(db.get_async_session)
-    ):
+        db: AsyncSession = Depends(db.get_async_session),
+        
+        ):
 
     photo = schemas.Photo
     photo.id = str(uuid4())
@@ -140,9 +144,17 @@ async def create_photo(
     original_image.thumbnail(thmb_size)
     original_image.save(f"{filepath}thmb_{save_filename}", 'jpeg', optimize=True)
 
-    original_image.close()
+    filtered_image = BytesIO()
+    original_image.save(filtered_image, "JPEG")
+    filtered_image.seek(0)
 
-    return photo
+    #original_image.close()
+
+    return Response(content=filtered_image.getvalue(), media_type="image/jpeg")
+
+    #return StreamingResponse(filtered_image, media_type="image/jpeg")
+
+    #return photo
 
 @app.post("/categories/", response_model=schemas.Category, dependencies=[Depends(current_superuser)], tags=[settings.app_name])
 async def create_category(
