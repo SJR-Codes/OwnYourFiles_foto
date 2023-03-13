@@ -40,10 +40,10 @@ class PhotoCreate(PhotoBase):
 
 class Photo(PhotoBase):
     id: str
-    filetype: str
-    filesize: int
-    image_width: int
-    image_height: int
+    #filetype: str
+    #filesize: int
+    #image_width: int
+    #image_height: int
     image_time: datetime
     created: datetime
     #category: Category

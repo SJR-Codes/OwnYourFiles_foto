@@ -17,10 +17,10 @@ async def create_photo(db: AsyncSession, photo: schemas.Photo):
     db_photo = oyf_models.OYF_Photo(
         id = photo.id,
         filename = photo.filename,
-        filetype = photo.filetype,
-        filesize = photo.filesize,
-        image_width = photo.image_width,
-        image_height = photo.image_height,
+        #filetype = photo.filetype,
+        #filesize = photo.filesize,
+        #image_width = photo.image_width,
+        #image_height = photo.image_height,
         image_time = photo.image_time,
         created = photo.created,
     )
