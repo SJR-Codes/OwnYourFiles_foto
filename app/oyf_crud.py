@@ -30,6 +30,11 @@ async def create_photo(db: AsyncSession, photo: schemas.Photo):
 
     return db_photo
 
+async def get_photos(db: AsyncSession, skip: int = 0, limit: int = 100):
+    result = await db.execute(select(oyf_models.OYF_Photo).offset(skip).limit(limit))
+
+    return result.scalars().all()
+
 async def get_category(db: AsyncSession, category_id: int):
     result = await db.execute(select(oyf_models.OYF_Category).where(oyf_models.OYF_Category.id == category_id))
     
