@@ -2,6 +2,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from . import oyf_models, schemas
+from sqlalchemy import desc, asc
 from uuid import UUID
 
 async def get_photo(db: AsyncSession, photo_id: str):
@@ -32,7 +33,7 @@ async def create_photo(db: AsyncSession, photo: schemas.Photo):
     return db_photo
 
 async def get_photos(db: AsyncSession, skip: int = 0, limit: int = 100):
-    result = await db.execute(select(oyf_models.OYF_Photo).offset(skip).limit(limit))
+    result = await db.execute(select(oyf_models.OYF_Photo).order_by(desc(oyf_models.OYF_Photo.created)).offset(skip).limit(limit))
 
     return result.scalars().all()
 
