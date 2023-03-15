@@ -22,9 +22,10 @@ origins = ['*']
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
+    max_age=[60*60]
 )
 
 
@@ -59,17 +60,25 @@ async def authenticated_route(user: User = Depends(current_active_user)):
 
 #OYF routes
 from fastapi import HTTPException, UploadFile
-from fastapi.responses import StreamingResponse, Response
-from app import oyf_crud, oyf_models, schemas, db
+from fastapi.responses import Response
+from app import oyf_crud, schemas, db
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.config import settings
-from uuid import UUID, uuid4
+from uuid import uuid4
 from datetime import datetime
 from PIL import Image
 import pathlib
 import aiofiles
-import os
 from io import BytesIO
+
+@app.get("/photos/", response_model=list[schemas.Photo], dependencies=[Depends(current_active_user)], tags=[settings.app_name])
+async def read_photos(
+        skip: int = 0, limit: int = 100, 
+        db: AsyncSession = Depends(db.get_async_session)
+    ):
+    photos = await oyf_crud.get_photos(db, skip=skip, limit=limit)
+    #print(categories)
+    return photos
 
 @app.get("/photos/{id}", response_model=schemas.Photo, dependencies=[Depends(current_active_user)], tags=[settings.app_name])
 async def read_photo(
@@ -83,14 +92,14 @@ async def read_photo(
         raise HTTPException(status_code=404, detail="Photo not found")
     return photo
 
-@app.post("/photos/", response_model=schemas.Photo, dependencies=[Depends(current_superuser)], tags=[settings.app_name])
+""" @app.post("/photos/", response_model=schemas.Photo, dependencies=[Depends(current_superuser)], tags=[settings.app_name])
 async def create_photo(
         photo: schemas.PhotoCreate, 
         db: AsyncSession = Depends(db.get_async_session)
     ):
     photo = await oyf_crud.create_photo(db=db, photo=photo)
     
-    return photo
+    return photo """
 responses = {200: {"content": {"image/png": {}}}}
 #@app.post("/upload/", response_model=schemas.Photo, dependencies=[Depends(current_superuser)], tags=[settings.app_name])
 @app.post("/upload/", responses=responses, response_class=Response, dependencies=[Depends(current_superuser)], tags=[settings.app_name])
