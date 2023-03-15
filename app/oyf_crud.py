@@ -6,7 +6,7 @@ from uuid import UUID
 
 async def get_photo(db: AsyncSession, photo_id: str):
     result = await db.execute(select(oyf_models.OYF_Photo).where(oyf_models.OYF_Photo.id == photo_id))
-    
+
     return result.scalars().first()
 
 
@@ -23,6 +23,7 @@ async def create_photo(db: AsyncSession, photo: schemas.Photo):
         #image_height = photo.image_height,
         image_time = photo.image_time,
         created = photo.created,
+        thumbnail = photo.thumbnail
     )
     db.add(db_photo)
     await db.commit()

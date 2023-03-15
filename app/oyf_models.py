@@ -13,9 +13,10 @@ DATABASE_URL = settings.database_url
 
 Base: DeclarativeMeta = declarative_base()
 
-from sqlalchemy import Column, ForeignKey, String, Integer, DateTime, CHAR
+from sqlalchemy import Column, ForeignKey, String, Integer, DateTime, CHAR, TEXT
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
+#from sqlalchemy.dialects.sqlite import BLOB
 import uuid as uuid_pkg
 
 class OYF_Photo(Base):
@@ -38,6 +39,9 @@ class OYF_Photo(Base):
     created = Column(DateTime, default=func.now())
     category_id = Column(Integer, ForeignKey("category.id"))
     category = relationship("OYF_Category") #, back_populates="")
+    thumbnail = Column(TEXT)
+    #thumbnail = Column(BLOB)
+
     #TODO: need for backpopulate categories here?
 
 class OYF_Category(Base):

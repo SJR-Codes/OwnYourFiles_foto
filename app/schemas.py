@@ -47,6 +47,7 @@ class Photo(PhotoBase):
     image_time: datetime
     created: datetime
     #category: Category
+    thumbnail: str
 
     class Config:
         orm_mode = True

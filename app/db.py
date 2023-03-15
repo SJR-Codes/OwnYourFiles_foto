@@ -20,10 +20,11 @@ async_session_maker = sessionmaker(engine, class_=AsyncSession, expire_on_commit
 
 #TODO: move this to own "module"
 # OYF code
-from sqlalchemy import Column, ForeignKey, String, Integer, DateTime, CHAR
+from sqlalchemy import Column, ForeignKey, String, Integer, DateTime, CHAR, TEXT
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 import uuid as uuid_pkg
+#from sqlalchemy.dialects.sqlite import BLOB
 
 class OYF_Photo(Base):
     __tablename__ = "photo"
@@ -43,6 +44,8 @@ class OYF_Photo(Base):
     created = Column(DateTime, default=func.now())
     category_id = Column(Integer, ForeignKey("category.id"))
     category = relationship("OYF_Category") #, back_populates="")
+    thumbnail = Column(TEXT)
+    #thumbnail = Column(BLOB)
     #TODO: need for backpopulate categories here?
 
     def __repr__(self):

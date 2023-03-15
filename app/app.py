@@ -70,6 +70,9 @@ from PIL import Image
 import pathlib
 import aiofiles
 from io import BytesIO
+import base64
+
+photo_responses = {200: {"content": {"image/jpg": {}}}}
 
 @app.get("/photos/", response_model=list[schemas.Photo], dependencies=[Depends(current_active_user)], tags=[settings.app_name])
 async def read_photos(
@@ -80,7 +83,8 @@ async def read_photos(
     #print(categories)
     return photos
 
-@app.get("/photos/{id}", response_model=schemas.Photo, dependencies=[Depends(current_active_user)], tags=[settings.app_name])
+#@app.get("/photos/{id}", response_model=schemas.Photo, dependencies=[Depends(current_active_user)], tags=[settings.app_name])
+@app.get("/photos/{id}", dependencies=[Depends(current_active_user)], tags=[settings.app_name])
 async def read_photo(
         #id: UUID, 
         id: str,
@@ -90,7 +94,24 @@ async def read_photo(
     #print(category)
     if photo is None:
         raise HTTPException(status_code=404, detail="Photo not found")
-    return photo
+
+    #TODO: better think this thoroughly, make sure we are not implementing caping holes into filesystem security
+    #filen = "mid_" + id + ".jpg"
+    filepath = settings.img_path
+    filen = f"{filepath}mid_{id}.jpg"
+    with open(filen, 'rb') as in_file:
+        content = in_file.read()
+    
+    #TODO: deal with async stuff later
+    #async with aiofiles.open(filen, 'r') as in_file:
+    #    content = await in_file.read()  # async read
+        #await out_file.write(content)  # async write
+        #content = in_file.read(1024*1024)  # async read chunk #TODO: does chunk size matter? yes, but how much?
+    #print(content)
+    img = {"image": base64.b64encode(content).decode('utf-8')}
+    #print(img)
+    return img
+    #return Response(content=filtered_image.getvalue(), media_type="image/jpeg")
 
 """ @app.post("/photos/", response_model=schemas.Photo, dependencies=[Depends(current_superuser)], tags=[settings.app_name])
 async def create_photo(
@@ -100,9 +121,9 @@ async def create_photo(
     photo = await oyf_crud.create_photo(db=db, photo=photo)
     
     return photo """
-responses = {200: {"content": {"image/png": {}}}}
+
 #@app.post("/upload/", response_model=schemas.Photo, dependencies=[Depends(current_superuser)], tags=[settings.app_name])
-@app.post("/upload/", responses=responses, response_class=Response, dependencies=[Depends(current_superuser)], tags=[settings.app_name])
+@app.post("/upload/", responses=photo_responses, response_class=Response, dependencies=[Depends(current_superuser)], tags=[settings.app_name])
 async def create_photo(
         upfile: UploadFile,
         #photo: schemas.PhotoCreate, 
@@ -156,8 +177,6 @@ async def create_photo(
     #photo.image_height = original_image.height
     photo.image_time = exifdata.get('DateTimeOriginal', datetime.now()) #original timestamp if found
     photo.created = datetime.now() #photo uploaded timestamp
-
-    photo = await oyf_crud.create_photo(db=db, photo=photo)
     
     #save full size, optimized, in jpg format
     original_image.save(f"{filepath}{save_filename}", 'jpeg', optimize=True)
@@ -176,6 +195,11 @@ async def create_photo(
     filtered_image = BytesIO()
     original_image.save(filtered_image, "JPEG")
     filtered_image.seek(0)
+
+    #insert thumbnail into db as BLOB
+    photo.thumbnail = base64.b64encode(filtered_image.getvalue()).decode('utf-8')
+
+    photo = await oyf_crud.create_photo(db=db, photo=photo)
 
     #original_image.close()
 
