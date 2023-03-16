@@ -122,8 +122,8 @@ async def create_photo(
     
     return photo """
 
-#@app.post("/upload/", response_model=schemas.Photo, dependencies=[Depends(current_superuser)], tags=[settings.app_name])
-@app.post("/upload/", responses=photo_responses, response_class=Response, dependencies=[Depends(current_superuser)], tags=[settings.app_name])
+@app.post("/upload/", response_model=schemas.Photo, dependencies=[Depends(current_superuser)], tags=[settings.app_name])
+#@app.post("/upload/", responses=photo_responses, response_class=Response, dependencies=[Depends(current_superuser)], tags=[settings.app_name])
 async def create_photo(
         upfile: UploadFile,
         #photo: schemas.PhotoCreate, 
@@ -203,11 +203,11 @@ async def create_photo(
 
     #original_image.close()
 
-    return Response(content=filtered_image.getvalue(), media_type="image/jpeg")
+    #return Response(content=filtered_image.getvalue(), media_type="image/jpeg")
 
     #return StreamingResponse(filtered_image, media_type="image/jpeg")
 
-    #return photo
+    return photo
 
 @app.post("/categories/", response_model=schemas.Category, dependencies=[Depends(current_superuser)], tags=[settings.app_name])
 async def create_category(
