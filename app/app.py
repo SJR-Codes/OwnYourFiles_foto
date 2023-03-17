@@ -192,6 +192,7 @@ async def create_photo(
     original_image.thumbnail(thmb_size)
     original_image.save(f"{filepath}thmb_{save_filename}", 'jpeg', optimize=True)
 
+    #TODO: explain this after figuring out and remember to comment code when written...
     filtered_image = BytesIO()
     original_image.save(filtered_image, "JPEG")
     filtered_image.seek(0)
