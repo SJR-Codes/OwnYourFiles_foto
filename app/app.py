@@ -178,6 +178,7 @@ async def create_photo(
     #photo.filesize = os.stat(out_file.name).st_size #out_file.tell() #original filesize #TODO: for what?? really worth importing os just for this
     #photo.image_width = original_image.width
     #photo.image_height = original_image.height
+    #TODO: fix bug, it seems that we're not getting correct timestamp
     photo.image_time = exifdata.get('DateTimeOriginal', datetime.now()) #original timestamp if found
     photo.created = datetime.now() #photo uploaded timestamp
     
