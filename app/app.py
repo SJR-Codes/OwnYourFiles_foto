@@ -168,6 +168,9 @@ async def create_photo(
     #cons: user doesn't get processed image back right after upload -> redirect and hope subprocess has done it's magic
     
     original_image = Image.open(upfile.file)
+    #fixes "OSError: cannot write mode RGBA as JPEG" if uploaded png with transparency    
+    if original_image.mode in ("RGBA", "P"): original_image = original_image.convert("RGB")
+    #TODO: should we show png's as png, but then again this is "photos"
 
     exifdata = original_image.getexif()
     
