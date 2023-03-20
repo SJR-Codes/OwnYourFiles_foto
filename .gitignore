@@ -1,5 +1,7 @@
 # Own Your Files
 secret.py
+*.db
+images/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
