@@ -59,7 +59,7 @@ async def authenticated_route(user: User = Depends(current_active_user)):
     return {"message": f"Hello {user.email}!"}
 
 #OYF routes
-from fastapi import HTTPException, UploadFile
+from fastapi import HTTPException, UploadFile, Form
 from fastapi.responses import Response
 from app import oyf_crud, schemas, db
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -99,18 +99,19 @@ async def read_photo(
     #filen = "mid_" + id + ".jpg"
     filepath = settings.img_path
     filen = f"{filepath}mid_{id}.jpg"
-    with open(filen, 'rb') as in_file:
-        content = in_file.read()
+    #with open(filen, 'rb') as in_file:
+    #    content = in_file.read()
     
-    #TODO: deal with async stuff later
-    #async with aiofiles.open(filen, 'r') as in_file:
-    #    content = await in_file.read()  # async read
+    #TODO: how about using lru_cache here?
+    async with aiofiles.open(filen, 'rb') as in_file:
+        content = await in_file.read()  # async read
         #await out_file.write(content)  # async write
         #content = in_file.read(1024*1024)  # async read chunk #TODO: does chunk size matter? yes, but how much?
     #print(content)
-    img = {"image": base64.b64encode(content).decode('utf-8')}
+    #img = {"image": base64.b64encode(content).decode('utf-8')}
+    data = {"image": base64.b64encode(content).decode('utf-8'), "category_id": photo.category_id}
     #print(img)
-    return img
+    return data
     #return Response(content=filtered_image.getvalue(), media_type="image/jpeg")
 
 """ @app.post("/photos/", response_model=schemas.Photo, dependencies=[Depends(current_superuser)], tags=[settings.app_name])
@@ -126,7 +127,7 @@ async def create_photo(
 #@app.post("/upload/", responses=photo_responses, response_class=Response, dependencies=[Depends(current_superuser)], tags=[settings.app_name])
 async def create_photo(
         upfile: UploadFile,
-        #photo: schemas.PhotoCreate, 
+        category_id: int = Form(...), 
         db: AsyncSession = Depends(db.get_async_session),
         
         ):
@@ -134,6 +135,7 @@ async def create_photo(
     photo = schemas.Photo
     photo.id = str(uuid4())
     photo.filename = upfile.filename #original filename
+    photo.category_id = category_id
 
     #TODO: groove this func
     #TODO: funcing async awaits, figure out blocking functions

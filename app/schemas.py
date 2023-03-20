@@ -34,6 +34,7 @@ class Category(CategoryBase):
 #classes for photos
 class PhotoBase(BaseModel):
     filename: str
+    #category_id: Category | None = None
 
 class PhotoCreate(PhotoBase):
     pass
@@ -45,9 +46,9 @@ class Photo(PhotoBase):
     #image_width: int
     #image_height: int
     image_time: datetime
-    created: datetime
-    #category: Category
+    created: datetime    
     thumbnail: str
+    category_id: int | None = None
 
     class Config:
         orm_mode = True

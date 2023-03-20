@@ -24,7 +24,8 @@ async def create_photo(db: AsyncSession, photo: schemas.Photo):
         #image_height = photo.image_height,
         image_time = photo.image_time,
         created = photo.created,
-        thumbnail = photo.thumbnail
+        thumbnail = photo.thumbnail,
+        category_id = photo.category_id,
     )
     db.add(db_photo)
     await db.commit()

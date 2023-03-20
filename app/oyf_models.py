@@ -38,14 +38,16 @@ class OYF_Photo(Base):
     image_time = Column(DateTime)
     created = Column(DateTime, default=func.now())
     category_id = Column(Integer, ForeignKey("category.id"))
-    category = relationship("OYF_Category") #, back_populates="")
     thumbnail = Column(TEXT)
     #thumbnail = Column(BLOB)
 
-    #TODO: need for backpopulate categories here?
+    #category = relationship("OYF_Category") #, back_populates="")
+    #category = relationship("OYF_Category", back_populates="photo")
 
 class OYF_Category(Base):
     __tablename__ = "category"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String, nullable=False)
+
+    #photos = relationship("OYF_Photo", back_populates="category")
