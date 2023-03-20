@@ -60,7 +60,6 @@ async def authenticated_route(user: User = Depends(current_active_user)):
 
 #OYF routes
 from fastapi import HTTPException, UploadFile, Form
-from fastapi.responses import Response
 from app import oyf_crud, schemas, db
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.config import settings
@@ -248,3 +247,9 @@ async def read_category(
     if category is None:
         raise HTTPException(status_code=404, detail="Category not found")
     return category
+
+
+#respond to ping
+@app.get("/ping")
+def ping():
+    return {"message": "ping, everything ok!"}
