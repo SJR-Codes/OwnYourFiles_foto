@@ -1,23 +1,29 @@
+import uvicorn
 from fastapi import Depends, FastAPI
 
+#loggin hacks for azure | Thank you https://iotespresso.com/author/sanghviyash7gmail-com/
+from fastapi.logger import logger
+import logging
+gunicorn_logger = logging.getLogger('gunicorn.error')
+logger.handlers = gunicorn_logger.handlers
+logger.setLevel(gunicorn_logger.level)
+
 #db create is done in run_once.py
-#from app.db import User, create_db_and_tables
-from app.db import User
-from app.schemas import UserCreate, UserRead, UserUpdate
-from app.users import auth_backend, current_active_user, fastapi_users, current_superuser
+#from db import User, create_db_and_tables
+from db import User
+from schemas import UserCreate, UserRead, UserUpdate
+from users import auth_backend, current_active_user, fastapi_users, current_superuser
 
 app = FastAPI()
-
+logger.info('OYF started...')
 #CORS
 from fastapi.middleware.cors import CORSMiddleware
-""" origins = [
-    "http://localhost.tiangolo.com",
-    "https://localhost.tiangolo.com",
+origins = [
     "http://localhost",
     "http://localhost:8000",
-] """
+]
 #allow all origins for testing
-origins = ['*']
+#origins = ['*']
 
 app.add_middleware(
     CORSMiddleware,
@@ -60,9 +66,9 @@ async def authenticated_route(user: User = Depends(current_active_user)):
 
 #OYF routes
 from fastapi import HTTPException, UploadFile, Form
-from app import oyf_crud, schemas, db
+import oyf_crud, schemas, db
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.config import settings
+from config import settings
 from uuid import uuid4
 from datetime import datetime
 from PIL import Image
@@ -252,4 +258,11 @@ async def read_category(
 #respond to ping
 @app.get("/ping")
 def ping():
+    logger.info('Got pinged...')
     return {"message": "ping, everything ok!"}
+
+
+if __name__ == "__main__":
+    logger.info('Starting app...')
+    #uvicorn.run("app.app:app", host="0.0.0.0", port=8000, log_level="info", reload="auto")
+    uvicorn.run("app:app", host="0.0.0.0", port=8000)

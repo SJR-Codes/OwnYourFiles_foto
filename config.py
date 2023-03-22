@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     app_name: str = "Default generic API"
     app_version: str = "0.0.0"
     admin_email: str = "admin@example.com"
-    database_url: str
+    database_url: str = "sqlite+aiosqlite:./test.db"
     secret: str = "Just something to be ridden over"
     img_path: str = "path to images"
 

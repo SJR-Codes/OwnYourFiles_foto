@@ -6,12 +6,12 @@
 * Copyright (c) 2023 SJR-Codes / Samu Reinikainen / samu.reinikainen@gmail.com
 """
 
-from app.config import settings
+from config import settings
 
 from fastapi import Depends, FastAPI, File, Form, UploadFile
 from pydantic import BaseModel
-from app.db import User
-from app.users import auth_backend, current_active_user, fastapi_users, current_superuser
+from db import User
+from users import auth_backend, current_active_user, fastapi_users, current_superuser
 
 app = FastAPI()
 

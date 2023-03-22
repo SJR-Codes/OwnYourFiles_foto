@@ -1,7 +1,7 @@
 #from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from . import oyf_models, schemas
+import oyf_models, schemas
 from sqlalchemy import desc, asc
 from uuid import UUID
 
