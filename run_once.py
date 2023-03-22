@@ -12,6 +12,7 @@ if __name__ == "__main__":
     passwd2 = input("Enter password again for admin user: ")
 
     #TODO: perhaps ask path to images here and create folder
+<<<<<<< HEAD
 
     #for quick testing
     """     user_name = "asd@asd.fo"
@@ -19,6 +20,10 @@ if __name__ == "__main__":
         passwd2 = "asd"
     """
     #TODO: brtter check for email and passwd complexity
+=======
+    
+    #TODO: better check for email and passwd complexity
+>>>>>>> origin/dev
     if len(user_name) < 6 and passwd1 != passwd2:
         print('Oh, please. Try again. Relax!')
         exit()
@@ -46,6 +51,7 @@ if __name__ == "__main__":
     #TODO: think. Does this really need to be asynchronous, like really.
     import asyncio
 
+<<<<<<< HEAD
     from app.db import create_db_and_tables
     async def create_db():
         await create_db_and_tables()
@@ -53,6 +59,15 @@ if __name__ == "__main__":
     from app.db import get_async_session, get_user_db, engine
     from app.schemas import UserCreate
     from app.users import get_user_manager
+=======
+    from db import create_db_and_tables
+    async def create_db():
+        await create_db_and_tables()
+
+    from db import get_async_session, get_user_db, engine
+    from schemas import UserCreate
+    from users import get_user_manager
+>>>>>>> origin/dev
     from fastapi_users.exceptions import UserAlreadyExists
 
     get_async_session_context = contextlib.asynccontextmanager(get_async_session)
@@ -76,7 +91,10 @@ if __name__ == "__main__":
         #except ValidationError:
         #    print(f"{email} is not valid email")
 
+<<<<<<< HEAD
     #TODO: OYF table create into separate function & file
+=======
+>>>>>>> origin/dev
     #create db and table
     asyncio.run(create_db())
     print("DB & tables created")
