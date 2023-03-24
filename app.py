@@ -21,7 +21,7 @@ from fastapi.middleware.cors import CORSMiddleware
 origins = [
     "http://localhost",
     "http://localhost:8000",
-    "https://SJR-Codes.github.io",
+    "https://sjr-codes.github.io",
 ]
 #allow all origins for testing
 #origins = ['*']
