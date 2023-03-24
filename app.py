@@ -21,6 +21,7 @@ from fastapi.middleware.cors import CORSMiddleware
 origins = [
     "http://localhost",
     "http://localhost:8000",
+    "https://SJR-Codes.github.io",
 ]
 #allow all origins for testing
 #origins = ['*']
@@ -85,6 +86,16 @@ async def read_photos(
         db: AsyncSession = Depends(db.get_async_session)
     ):
     photos = await oyf_crud.get_photos(db, skip=skip, limit=limit)
+    #print(categories)
+    return photos
+
+@app.get("/photosbycat/{category_id}", response_model=list[schemas.Photo], dependencies=[Depends(current_active_user)], tags=[settings.app_name])
+async def read_photos(
+        category_id: int,
+        skip: int = 0, limit: int = 100, 
+        db: AsyncSession = Depends(db.get_async_session)
+    ):
+    photos = await oyf_crud.get_photosbycat(db, category_id=category_id, skip=skip, limit=limit)
     #print(categories)
     return photos
 
@@ -264,5 +275,5 @@ def ping():
 
 if __name__ == "__main__":
     logger.info('Starting app...')
-    #uvicorn.run("app.app:app", host="0.0.0.0", port=8000, log_level="info", reload="auto")
-    uvicorn.run("app:app", host="0.0.0.0", port=8000)
+    uvicorn.run("app:app", host="0.0.0.0", port=8000, log_level="info", reload="auto")
+    #uvicorn.run("app:app", host="0.0.0.0", port=8000)
