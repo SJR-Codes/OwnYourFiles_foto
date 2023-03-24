@@ -12,11 +12,11 @@ class Settings(BaseSettings):
     app_name: str = "Default generic API"
     app_version: str = "0.0.0"
     admin_email: str = "admin@example.com"
-    database_url: str = "sqlite+aiosqlite:./test.db"
+    database_url: str = "done in run_once"
     secret: str = "Just something to be ridden over"
     img_path: str = "path to images"
 
-    #override above variables from .env-file. See .env_example
+    #override above variables from .env-file (run_once.py creates it).
     class Config:
         env_file = ".env"
 
