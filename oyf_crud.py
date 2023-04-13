@@ -2,7 +2,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 import oyf_models, schemas
-from sqlalchemy import desc, asc
+from sqlalchemy import desc, asc, delete
 from uuid import UUID
 
 async def get_photo(db: AsyncSession, photo_id: str):
@@ -47,6 +47,11 @@ async def get_category(db: AsyncSession, category_id: int):
     result = await db.execute(select(oyf_models.OYF_Category).where(oyf_models.OYF_Category.id == category_id))
     
     return result.scalars().first()
+
+async def delete_category(db: AsyncSession, category_id: int):
+    result = await db.execute(delete(oyf_models.OYF_Category).where(oyf_models.OYF_Category.id == category_id))
+    await db.commit()
+    return result
 
 async def get_categories(db: AsyncSession, skip: int = 0, limit: int = 100):
     result = await db.execute(select(oyf_models.OYF_Category).offset(skip).limit(limit))

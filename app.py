@@ -21,6 +21,7 @@ from fastapi.middleware.cors import CORSMiddleware
 origins = [
     "http://localhost",
     "http://localhost:8000",
+    "http://localhost:5173",
     "https://sjr-codes.github.io",
 ]
 #allow all origins for testing
@@ -265,6 +266,19 @@ async def read_category(
         raise HTTPException(status_code=404, detail="Category not found")
     return category
 
+@app.delete("/categories/{id}", dependencies=[Depends(current_superuser)], tags=[settings.app_name])
+async def delete_category(
+        id: int, 
+        db: AsyncSession = Depends(db.get_async_session)
+    ):
+
+    photos = await oyf_crud.get_photosbycat(db, category_id=id)
+    if (len(photos) > 0):
+        print("Err... pics attached to category... what do?")
+        raise HTTPException(status_code=409, detail="Category has images.")
+
+    await oyf_crud.delete_category(db, category_id=id)
+    return {"ok": True}
 
 #respond to ping
 @app.get("/ping")
@@ -275,5 +289,5 @@ def ping():
 
 if __name__ == "__main__":
     logger.info('Starting app...')
-    #uvicorn.run("app.app:app", host="0.0.0.0", port=8000, log_level="info", reload="auto")
-    uvicorn.run("app:app", host="0.0.0.0", port=8000)
+    uvicorn.run("app:app", host="0.0.0.0", port=8000, log_level="info", reload="auto")
+    #uvicorn.run("app:app", host="0.0.0.0", port=8000)
